@@ -4,7 +4,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.interpolate import interp1d
-from define_experiment import experiment1
+from subfunctions import *
 
 # Variables
 
@@ -29,4 +29,5 @@ plt.plot(alpha_dist, alpha_deg, marker = "*")
 plt.plot(data_points, angle_points)
 plt.xlabel('Position (m)')
 plt.ylabel('Terrain Angle (deg)')
+
 plt.title("Visualizing the Terrain")
