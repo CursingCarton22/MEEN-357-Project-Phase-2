@@ -9,7 +9,7 @@ import numpy as np
 
 import matplotlib.pyplot as plt
 
-from scipy.interpolate import interp1d
+from scipy.interpolate import PchipInterpolator
 
 rover = {
     "wheel_assembly" : {
@@ -47,11 +47,11 @@ planet = {
     "g" : 3.72
     }
 
-efficiency_tau = rover["wheel_assembly"]["motor"]["effcy_tau"]
+efficiency_tau = rover["wheel_assembly"]["motor"]["effcy_tau"] / 100
 
-efficiency = rover["wheel_assembly"]["motor"]["effcy"]
+efficiency = rover["wheel_assembly"]["motor"]["effcy"] * 100
 
-function = interp1d(efficiency_tau, efficiency, kind = "cubic")
+function = PchipInterpolator(efficiency_tau, efficiency)
 
 tau_values = np.linspace(min(efficiency_tau), max(efficiency_tau), 100)
 
@@ -60,7 +60,7 @@ efficiency_values = function(tau_values)
 plt.figure()
 
 plt.plot(tau_values, efficiency_values, label="Efficiency curve")
-plt.plot(efficiency_tau, efficiency, '*', markersize=10, label="Measured data")
+
 
 plt.xlabel("Motor Torque [N-m]")
 plt.ylabel("Efficiency [-]")
