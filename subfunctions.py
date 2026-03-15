@@ -398,7 +398,7 @@ def rover_dynamics(t, y, rover, planet, experiment):
     
     Force_gravity = F_gravity(terrain_angle, rover, planet)
     
-    Force_net = Force_drive + Force_rolling + Force_gravity
+    Force_net = Force_drive - Force_rolling - Force_gravity
     
 #caclulate acceleration
 
