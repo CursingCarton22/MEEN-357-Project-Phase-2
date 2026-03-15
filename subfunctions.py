@@ -487,7 +487,6 @@ def battenergy(t, v, rover):
     
     # Plug into functions to get power
     mech_power = mechpower(v, rover)
-    mech_power = np.maximum(mech_power, 0)
     
     # Calling motorW to get angular speed and then calculating tau
     omega = motorW(v, rover)
@@ -499,7 +498,6 @@ def battenergy(t, v, rover):
     
     # Interpolate values 
     final_efficiency = np.interp(tau, tau_efficiency, efficiency)
-    final_efficiency[final_efficiency <= 0] = 1e-6
 
     # Calculating Power
     elect_power = mech_power / final_efficiency
