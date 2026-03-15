@@ -501,9 +501,9 @@ def battenergy(t, v, rover):
     
     # Calculating Power
     elect_power = mech_power / final_efficiency
-    power = 6 * elect_power
+    # power = 6 * elect_power
     
     # Integrating using trapezoidal method to get electrical energy consumed
-    E = np.trapz(power, t)
+    E = 6 * np.trapz(elect_power, t)
     
     return E
