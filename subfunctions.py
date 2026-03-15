@@ -333,16 +333,6 @@ def motorW(v, rover):
     
     return angular_speed
 
-# -*- coding: utf-8 -*-
-"""
-Created on Sun Mar 15 15:36:25 2026
-
-@author: ahren
-"""
-
-import numpy as np
-from subfunctions import *
-
 def rover_dynamics(t, y, rover, planet, experiment):
     
     """
@@ -414,7 +404,7 @@ def rover_dynamics(t, y, rover, planet, experiment):
 
     mass = get_mass(rover)
     
-    acceleration = Force_net / mass
+    acceleration = float(Force_net / mass)
     
 
 #Find first derivative dydt
