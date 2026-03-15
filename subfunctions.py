@@ -482,15 +482,15 @@ def battenergy(t, v, rover):
     if not isinstance(rover, dict):
         raise Exception("rover should be a dictionary")
     
-    # Calling motorW to get angular speed
-    omega = motorW(v, rover)
-    
     # Get motor information from rover dictionary
     motor = rover['wheel_assembly']['motor']
     
-    # Plug into functions to get tau and power
-    tau = tau_dcmotor(omega, motor)
+    # Plug into functions to get power
     mech_power = mechpower(v, rover)
+    
+    # Calling motorW to get angular speed and then calculating tau
+    omega = motorW(v, rover)
+    tau = tau_dcmotor(omega, motor)
     
     # Efficiency as a function of torque
     tau_efficiency = rover['wheel_assembly']['motor']['effcy_tau']
