@@ -458,13 +458,20 @@ def mechpower(v, rover):
 
 
 # Function
+
+from subfunctions import *
+
+
+# Function
 def battenergy(t, v, rover):
     
     # Imports
     import numpy as np
-    from scipy.interpolate import interp1d
+    
     
     # Checking the validity of inputs
+    if not isinstance(t, np.ndarray) or not isinstance(v, np.ndarray):
+        raise Exception("t and v inputs must be numpy arrays")
     if len(t) != len(v):
         raise Exception("t and v should be equal length vectors")
     if not isinstance(rover, dict):
@@ -485,8 +492,7 @@ def battenergy(t, v, rover):
     efficiency = rover['wheel_assembly']['motor']['effcy']
     
     # Interpolate values 
-    eff_interpolate = interp1d(tau_efficiency, efficiency, fill_value = 'extrapolate')
-    final_efficiency = eff_interpolate(tau)
+    final_efficiency = np.interp(tau, tau_efficiency, efficiency)
     
     # Calculating Power
     power = 6 * mech_power / final_efficiency
