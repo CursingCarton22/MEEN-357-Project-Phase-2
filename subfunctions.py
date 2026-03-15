@@ -333,6 +333,16 @@ def motorW(v, rover):
     
     return angular_speed
 
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Mar 15 15:36:25 2026
+
+@author: ahren
+"""
+
+import numpy as np
+from subfunctions import *
+
 def rover_dynamics(t, y, rover, planet, experiment):
     
     """
@@ -392,13 +402,13 @@ def rover_dynamics(t, y, rover, planet, experiment):
     
 #Force calculations
 
-    Force_drive = F_drive(omega,rover)
+    # Force_drive = F_drive(omega,rover)
     
-    Force_rolling = F_rolling(np.array([omega]), np.array([terrain_angle]), rover, planet, Crr)[0]
+    # Force_rolling = F_rolling(omega, terrain_angle, rover, planet, Crr)[0]
     
-    Force_gravity = F_gravity(terrain_angle, rover, planet)
+    # Force_gravity = F_gravity(terrain_angle, rover, planet)
     
-    Force_net = Force_drive + Force_rolling + Force_gravity
+    Force_net = F_net(omega, terrain_angle, rover, planet, Crr)
     
 #caclulate acceleration
 
