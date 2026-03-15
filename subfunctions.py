@@ -458,12 +458,17 @@ def mechpower(v, rover):
 
 
 # Function
-
-from subfunctions import *
-
-
-# Function
 def battenergy(t, v, rover):
+    
+    """ This function computes the total electrical energy consumed from 
+    the rover battery pack. It is assumed that all 6 motors are used at
+    the same time for simplification.
+    
+    Inputs should be the following:
+        t = 1D numpy arrau of time samples from a rover simulation [s]
+        v = 1D numpy arrau of rover velocity data from a simulation [m/s]
+        rover = dictionary
+    """
     
     # Imports
     import numpy as np
