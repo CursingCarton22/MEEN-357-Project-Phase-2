@@ -53,3 +53,76 @@ def experiment1():
                  'min_velocity' : 0.01}
     
     return experiment, end_event
+
+import numpy as np
+
+def motorW(v, rover):
+    
+#raise exceptions in case of error input
+    if not isinstance(rover, dict):
+        raise Exception("Rover input is invalid")
+    
+    if not (np.isscalar(v) or isinstance(v, np.ndarray)):
+        raise Exception("Velocity input is invalid, please input a scalar or numpy array")
+        
+    if isinstance(v, np.ndarray) and v.ndim > 1:
+        raise Exception("Velocity input is invalid because it is not 1-Dimensional")
+    
+    wm = rover['wheel_assembly']
+
+    wheel = wm['wheel']
+    
+    radius = wheel["radius"]
+    
+    gear_ratio = get_gear_ratio(rover)
+    
+    w_wheel = v / radius
+    
+    angular_speed = gear_ratio * w_wheel
+    
+    return angular_speed
+
+
+def mechpower(v, rover):
+    
+    """
+    Computes the instantaneous
+    mechanical power output by a single DC motor at each point 
+    in a simulation run, in Watts.
+    
+    Input:
+        
+    v - rover velocity [v/s]
+    
+    rover - rover data structure dictionary
+    
+    Return:
+        
+    Power - Mechanical Power Output [W]
+
+    """
+#raise exceptions in case of error
+    
+    if not isinstance(rover, dict):
+        raise Exception("Rover input is invalid")
+    
+    if not (np.isscalar(v) or isinstance(v, np.ndarray)):
+        raise Exception("Velocity input is invalid, please input a scalar or numpy array")
+        
+    if isinstance(v, np.ndarray) and v.ndim > 1:
+        raise Exception("Velocity input is invalid because it is not 1-Dimensional")
+        
+#calculate motor speed
+
+    angular_speed = motorW(v, rover)
+    
+#calculate motor torque
+    tau = tau_dcmotor(w, rover)
+    
+#Calculate motor power
+
+    Power = tau * angular_speed
+    
+    return Power
+
+
