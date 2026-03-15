@@ -26,8 +26,8 @@ def battenergy(t, v, rover):
     mech_power = mechpower(v, rover)
     
     # Efficiency as a function of torque
-    tau_efficiency = 
-    efficiency = 
+    tau_efficiency = rover['wheel_assembly']['motor']['effcy_tau']
+    efficiency = rover['wheel_assembly']['motor']['effcy']
     
     # Interpolate values 
     eff_interpolate = interp1d(tau_efficiency, efficiency, fill_value = 'extrapolate')
