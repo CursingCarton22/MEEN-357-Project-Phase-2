@@ -457,9 +457,6 @@ def mechpower(v, rover):
     return Power
 
 
-from subfunctions import *
-
-
 # Function
 def battenergy(t, v, rover):
     
@@ -470,7 +467,7 @@ def battenergy(t, v, rover):
     # Checking the validity of inputs
     if len(t) != len(v):
         raise Exception("t and v should be equal length vectors")
-    if isinstance(rover, dict):
+    if not isinstance(rover, dict):
         raise Exception("rover should be a dictionary")
     
     # Calling motorW to get angular speed
