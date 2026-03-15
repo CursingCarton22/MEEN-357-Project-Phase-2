@@ -394,7 +394,7 @@ def rover_dynamics(t, y, rover, planet, experiment):
 
     Force_drive = F_drive(omega,rover)
     
-    Force_rolling = F_rolling(omega, terrain_angle, rover, planet, Crr)
+    Force_rolling = F_rolling(np.array([omega]), np.array([terrain_angle]), rover, planet, Crr)[0]
     
     Force_gravity = F_gravity(terrain_angle, rover, planet)
     
