@@ -191,7 +191,10 @@ def F_rolling(omega, terrain_angle, rover, planet, Crr):
     if not isinstance(planet, dict):
         raise Exception('Planet input invalid: The input must be in the dictionary')
 
-    if omega.shape != terrain_angle.shape:
+    #if omega.shape != terrain_angle.shape:
+       # raise Exception('Omega and terrain angle must be the same shape')
+
+    if np.size(omega) != np.size(terrain_angle) and np.size(omega) != 1 and np.size(terrain_angle) != 1:
         raise Exception('Omega and terrain angle must be the same shape')
         
 #List known values
