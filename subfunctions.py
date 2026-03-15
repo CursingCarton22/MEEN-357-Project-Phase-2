@@ -462,7 +462,7 @@ def battenergy(t, v, rover):
     
     # Imports
     import numpy as np
-    from scypy.interpolate import interp1d
+    from scipy.interpolate import interp1d
     
     # Checking the validity of inputs
     if len(t) != len(v):
