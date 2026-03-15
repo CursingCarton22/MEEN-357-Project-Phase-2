@@ -20,7 +20,7 @@ rover = {
             "speed_noload" : 3.8,
             "mass" : 5,
             "effcy_tau" : np.array([0, 10, 20, 40, 75, 165]),
-            "effcy" : np.array([0, 0.55, 0.75, 0.82, 0.80, 0.05])
+            "effcy" : np.array([0.55, 0.55, 0.75, 0.82, 0.80, 0.05])
             }
         },
     "chassis" : {
