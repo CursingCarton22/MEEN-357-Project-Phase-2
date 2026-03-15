@@ -497,7 +497,7 @@ def battenergy(t, v, rover):
     efficiency = rover['wheel_assembly']['motor']['effcy']
     
     # Interpolate values 
-    final_efficiency = np.interp(tau, tau_efficiency, efficiency)
+    final_efficiency = np.interp(np.abs(tau), tau_efficiency, efficiency)
     
     # Calculating Power
     power = 6 * mech_power / final_efficiency
