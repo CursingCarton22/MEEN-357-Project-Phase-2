@@ -335,6 +335,8 @@ def motorW(v, rover):
 
 def rover_dynamics(t, y, rover, planet, experiment):
     
+    from scipy.interpolate import interp1d
+    
     """
     This function computes the derivative of the state vector (state vector is: [velocity, position]) for the rover given its
     current state. It requires rover and experiment dictionary input parameters. It is intended to be passed to an ODE
@@ -358,9 +360,6 @@ def rover_dynamics(t, y, rover, planet, experiment):
         rover acceleration [m/s^2] and second element is rover velocity [m/s]
     
     """
-
-    from scipy.interpolate import interp1d
-    
 #raise exceptions in case of error
     if not isinstance(rover, dict):
         raise Exception("Rover input is invalid")
@@ -391,8 +390,8 @@ def rover_dynamics(t, y, rover, planet, experiment):
     omega = motorW(velocity, rover)
 #interpolate terrain angle
 
-    terrain = interp1d(alpha_dist, alpha_deg)
-    terrain_angle = terrain(position)
+    terrain = interp1d(alpha_dist, alpha_deg, kind = 'cubic', fill_value = "extrapolate")
+    terrain_angle = float(terrain(position))
     
 # Force calculations
 
