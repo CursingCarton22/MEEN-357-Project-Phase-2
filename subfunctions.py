@@ -287,6 +287,69 @@ def F_net(omega, terrain_angle, rover, planet, Crr):
     
     return Force_net
 
+"""###########################################################################
+#   This file initializes the experiment and end_event structures for 
+#   MEEN 357 project phase 2.
+#
+#   Created by: MEEN 357 Instructional Team
+###########################################################################"""
+
+import numpy as np
+
+def experiment1():
+    
+    experiment = {'time_range' : np.array([0,20000]),
+                  'initial_conditions' : np.array([0.325,0]),
+                  'alpha_dist' : np.array([0, 100, 200, 300, 400, 500, 600, \
+                                           700, 800, 900, 1000]),
+                  'alpha_deg' : np.array([2.032, 11.509, 2.478, 7.182, \
+                                        5.511, 10.981, 5.601, -0.184, \
+                                        0.714, 4.151, 4.042]),
+                  'Crr' : 0.1}
+    
+    
+    # Below are default values for example only:
+    end_event = {'max_distance' : 50,
+                 'max_time' : 5000,
+                 'min_velocity' : 0.01}
+    
+    return experiment, end_event
+
+def end_of_mission_event(end_event):
+    """
+    Defines an event that terminates the mission simulation. Mission is over
+    when rover reaches a certain distance, has moved for a maximum simulation 
+    time or has reached a minimum velocity.            
+    """
+    
+    mission_distance = end_event['max_distance']
+    mission_max_time = end_event['max_time']
+    mission_min_velocity = end_event['min_velocity']
+    
+    # Assume that y[1] is the distance traveled
+    distance_left = lambda t,y: mission_distance - y[1]
+    distance_left.terminal = True
+    
+    time_left = lambda t,y: mission_max_time - t
+    time_left.terminal = True
+    
+    velocity_threshold = lambda t,y: y[0] - mission_min_velocity;
+    velocity_threshold.terminal = True
+    velocity_threshold.direction = -1
+    
+    # terminal indicates whether any of the conditions can lead to the
+    # termination of the ODE solver. In this case all conditions can terminate
+    # the simulation independently.
+    
+    # direction indicates whether the direction along which the different
+    # conditions is reached matters or does not matter. In this case, only
+    # the direction in which the velocity treshold is arrived at matters
+    # (negative)
+    
+    events = [distance_left, time_left, velocity_threshold]
+    
+    return events
+
 import numpy as np
 
 def motorW(v, rover):
@@ -513,3 +576,68 @@ def battenergy(t, v, rover):
     E = 6 * np.trapz(elect_power, t)
     
     return E
+
+def simulate_rover(rover, planet, experiment, end_event):
+    
+    # Imports
+    import numpy as np
+    from scipy.integrate import solve_icp
+    
+    # Checking the validity of inputs 
+    if not isinstance(rover, dict):
+        raise Exception("rover must only be a dictionary")
+    if not isinstance(planet, dict):
+        raise Exception("planet must only be a dictionary")
+    if not isinstance(experiment, dict):
+        raise Exception("experiment must only be a dictionary")
+    if not isinstance(end_event, dict):
+        raise Exception("end_event must only be a dictionary")
+    
+    # Initial conditions in experiment1
+    experiment, end_event = experiment1() # importing 
+    
+    y0 = experiment["initial_conditions"]
+    time_range = experiment["time_range"]
+    
+    # Event function to solve future ODE 
+    terminate = end_of_mission_event(end_event)
+    
+    # Rover dynamics function (must be used in solve_ivp)
+    def r_dynamics(t, y):
+        return rover_dynamics(t, y, rover, planet, experiment)
+    
+    # Solving the ODE which will givea list of time, velocity, and position
+    trajectory = solve_ivp(r_dynamics, time_range, y0, events = terminate, max_step = 1)
+    
+    # Results where trajectory is represented in time values and gives y
+    time = trajectory.t
+    velocity = trajectory.y[0]
+    position = trajectory.y[1]
+    
+    # Collecting data needed to add to rover dictionary
+    
+    completion_time = time[-1] # Total time should be the final time 
+    distance_traveled = position[-1] # Gives final position
+    max_velocity = np.max(velocity)
+    average_velocity = np.average(velocity)
+    
+    # Importing power and battery energy from previous functions
+    power = 6 * mechpower(v, rover)
+    battery_energy = battenergy(t, v, rover)
+    energy_per_distance = battery_energy / distance_traveled
+    
+    # Adding telemetry to rover\
+    rover["telemetry"] = {
+        "Time": time,
+        "completion_time": completion_time,
+        "velocity": velocity,
+        "position": position,
+        "distance_traveled": distance_traveled,
+        "max_velocity": max_velocity,
+        "average_velocity": average_velocity,
+        "power": power,
+        "battery_energy": battery_energy,
+        "energy_per_distance": energy_per_distance
+        }
+    
+    return rover
