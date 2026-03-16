@@ -407,7 +407,7 @@ def rover_dynamics(t, y, rover, planet, experiment):
 
     mass = get_mass(rover)
     
-    acceleration = float(Force_net / mass)
+    acceleration = Force_net / mass
     
 
 #Find first derivative dydt
