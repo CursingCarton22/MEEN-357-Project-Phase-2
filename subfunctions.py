@@ -579,6 +579,22 @@ def battenergy(t, v, rover):
 
 def simulate_rover(rover, planet, experiment, end_event):
     
+    """
+    This function integrates the trajectory of a rover to find the time,
+    velocity, and position of the rover. All of this is then added to
+    the rover dictionary, along with other parameters found during this 
+    part of the project.
+    
+    Input Arguments:
+        rover = dictionary containing the parameters of the rover
+        planet = dictionary of the planet definition
+        experiment = dictionary containing the parameters of the trajectory
+        end_event = dictionary containing when to terminate simulation
+    
+    Returns:
+        rover = an updated dictionary including telemetry information
+    """
+    
     # Imports
     import numpy as np
     from scipy.integrate import solve_icp
@@ -641,3 +657,4 @@ def simulate_rover(rover, planet, experiment, end_event):
         }
     
     return rover
+    
