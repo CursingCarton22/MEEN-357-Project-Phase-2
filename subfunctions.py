@@ -391,7 +391,7 @@ def rover_dynamics(t, y, rover, planet, experiment):
 #interpolate terrain angle
 
     terrain = interp1d(alpha_dist, alpha_deg, kind = 'cubic', fill_value = "extrapolate")
-    terrain_angle = float(terrain(position))
+    terrain_angle = terrain(position)
     
 # Force calculations
 
