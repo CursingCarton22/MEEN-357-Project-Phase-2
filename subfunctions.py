@@ -476,7 +476,7 @@ def battenergy(t, v, rover):
     
     # Imports
     import numpy as np
-    
+    from scipy.interpolate import interp1d
     
     # Checking the validity of inputs
     if not isinstance(t, np.ndarray) or not isinstance(v, np.ndarray):
@@ -492,6 +492,7 @@ def battenergy(t, v, rover):
     # Plug into functions to get power
     mech_power = mechpower(v, rover)
     
+    
     # Calling motorW to get angular speed and then calculating tau
     omega = motorW(v, rover)
     tau = tau_dcmotor(omega, motor)
@@ -501,8 +502,9 @@ def battenergy(t, v, rover):
     efficiency = rover['wheel_assembly']['motor']['effcy']
     
     # Interpolate values 
-    final_efficiency = np.interp(tau, tau_efficiency, efficiency)
-
+    final_efficiency_function = interp1d(tau_efficiency, efficiency, kind = "cubic", fill_value = "extrapolate")
+    final_efficiency = final_efficiency_function(tau)
+    
     # Calculating Power
     elect_power = mech_power / final_efficiency
     # power = 6 * elect_power
