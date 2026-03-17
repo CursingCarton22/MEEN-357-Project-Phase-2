@@ -40,11 +40,11 @@ def mechpower(v, rover):
     angular_speed = motorW(v, rover)
     
 #calculate motor torque
-    tau = tau_dcmotor(w, rover)
+    torque = tau_dcmotor(w, rover)
     
 #Calculate motor power
 
-    Power = tau * angular_speed
+    Power = torque * angular_speed
     
     return Power
     
