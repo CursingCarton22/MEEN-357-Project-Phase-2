@@ -9,6 +9,20 @@ import numpy as np
 
 def motorW(v, rover):
     
+    """
+    This code computer the rotational speed (angular velocity) of the motor 
+    depending on the translational velocity of the rover
+    
+    Input:
+        
+    v - rover velocity [m/s]
+    
+    rover - dictionary containing necessary values
+    
+    Results:
+        
+    angular_speed - Returns the motor speed/angular speed[rad/s]
+    """
 #raise exceptions in case of error input
     if not isinstance(rover, dict):
         raise Exception("Rover input is invalid")
