@@ -597,7 +597,7 @@ def simulate_rover(rover, planet, experiment, end_event):
     
     # Imports
     import numpy as np
-    from scipy.integrate import solve_icp
+    from scipy.integrate import solve_ivp
     
     # Checking the validity of inputs 
     if not isinstance(rover, dict):
