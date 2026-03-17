@@ -72,7 +72,6 @@ plt.figure()
 
 plt.plot(tau_values, efficiency_values, label="Efficiency curve")
 
-#graph doesnt look exactly like the graph on the manual. Asked people on stackoverflow for advice, they were condescending assholes and didnt answer my questions
 
 plt.xlabel("Motor Torque [N-m]")
 plt.ylabel("Efficiency [%]")
