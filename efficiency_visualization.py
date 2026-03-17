@@ -9,8 +9,7 @@ import numpy as np
 
 import matplotlib.pyplot as plt
 
-from scipy.interpolate import PchipInterpolator
-
+from scipy.interpolate import interp1d
 #copy and pasted dictionary from previous project phase. Added effcy_tau and effcy to it.
 rover = {
     "wheel_assembly" : {
@@ -49,7 +48,7 @@ planet = {
     }
 
 #dividing effct_tau by 100 to convert mm to m
-efficiency_tau = rover["wheel_assembly"]["motor"]["effcy_tau"] / 100
+efficiency_tau = rover["wheel_assembly"]["motor"]["effcy_tau"] 
 
 #multiplying effcy by 100 to convert decimal to percentage point
 
@@ -57,7 +56,7 @@ efficiency = rover["wheel_assembly"]["motor"]["effcy"] * 100
 
 #using PchipInterp. to make function
 
-function = PchipInterpolator(efficiency_tau, efficiency)
+function = interp1d(efficiency_tau, efficiency, kind = 'cubic')
 
 #making tau values
 
@@ -76,7 +75,7 @@ plt.plot(tau_values, efficiency_values, label="Efficiency curve")
 #graph doesnt look exactly like the graph on the manual. Asked people on stackoverflow for advice, they were condescending assholes and didnt answer my questions
 
 plt.xlabel("Motor Torque [N-m]")
-plt.ylabel("Efficiency [-]")
+plt.ylabel("Efficiency [%]")
 plt.title("Motor Efficiency vs Torque")
 plt.legend()
 plt.grid(True)
