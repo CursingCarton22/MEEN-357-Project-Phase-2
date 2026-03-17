@@ -18,16 +18,24 @@ def motorW(v, rover):
         
     if isinstance(v, np.ndarray) and v.ndim > 1:
         raise Exception("Velocity input is invalid because it is not 1-Dimensional")
+
+    #stating necessary values
     
     wm = rover['wheel_assembly']
 
     wheel = wm['wheel']
     
     radius = wheel["radius"]
+
+    #using get_gear_ratio function to get gear_ratio
     
     gear_ratio = get_gear_ratio(rover)
+
+    #calculating angular frequency
     
     w_wheel = v / radius
+
+    #calculating angular speed
     
     angular_speed = gear_ratio * w_wheel
     
