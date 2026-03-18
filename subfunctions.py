@@ -576,7 +576,6 @@ def battenergy(t, v, rover):
     E = 6 * np.trapz(elect_power, t)
     
     return E
-
 def simulate_rover(rover, planet, experiment, end_event):
     
     """
@@ -610,8 +609,6 @@ def simulate_rover(rover, planet, experiment, end_event):
         raise Exception("end_event must only be a dictionary")
     
     # Initial conditions in experiment1
-    experiment, end_event = experiment1() # importing 
-    
     y0 = experiment["initial_conditions"]
     time_range = experiment["time_range"]
     
@@ -638,8 +635,8 @@ def simulate_rover(rover, planet, experiment, end_event):
     average_velocity = np.average(velocity)
     
     # Importing power and battery energy from previous functions
-    power = 6 * mechpower(v, rover)
-    battery_energy = battenergy(t, v, rover)
+    power = 6 * mechpower(velocity, rover)
+    battery_energy = battenergy(time, velocity, rover)
     energy_per_distance = battery_energy / distance_traveled
     
     # Adding telemetry to rover\
