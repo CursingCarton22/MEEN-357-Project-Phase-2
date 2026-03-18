@@ -1,3 +1,4 @@
+
 # Imports
 
 import numpy as np
@@ -24,8 +25,8 @@ angle_points = alpha_fun(data_points)
 
 # Plotting Graphs
 plt.figure()
-plt.plot(alpha_dist, alpha_deg, marker = "*") # Plot of the known values
-plt.plot(data_points, angle_points) # Plot of the interpolated values
+plt.scatter(alpha_dist, alpha_deg, marker = "*") # Plot of the known values
+plt.plot(data_points, angle_points, color = 'orange') # Plot of the interpolated values
 plt.xlabel('Position (m)')
 plt.ylabel('Terrain Angle (deg)')
 plt.title("Visualizing the Terrain")
