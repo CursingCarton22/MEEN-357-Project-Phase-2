@@ -1,0 +1,92 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Mar 18 22:34:47 2026
+
+@author: haide
+"""
+
+import matplotlib.pyplot as plt
+from subfunctions import *
+
+# Load experiment
+experiment, end_event = experiment1()
+
+# Set end conditions
+end_event['max_distance'] = 1000
+end_event['max_time'] = 10000
+end_event['min_velocity'] = 0.01
+
+# Run simulation
+rover = simulate_rover(rover, planet, experiment, end_event)
+
+# Extract telemetry
+telemetry = rover["telemetry"]
+
+time = rover["telemetry"]["Time"]
+position = rover["telemetry"]["position"]
+velocity = rover["telemetry"]["velocity"]
+power = rover["telemetry"]["power"]
+
+completion_time = telemetry["completion_time"]
+distance_traveled = telemetry["distance_traveled"]
+max_velocity = telemetry["max_velocity"]
+average_velocity = telemetry["average_velocity"]
+battery_energy = telemetry["battery_energy"]
+energy_per_distance = telemetry["energy_per_distance"]
+
+print("\n--- Rover Telemetry Summary ---")
+print(f"{'Metric':<30} {'Value':>15}")
+print("-"*45)
+print(f"{'Completion Time (s)':<30} {completion_time:>15.2f}")
+print(f"{'Distance Traveled (m)':<30} {distance_traveled:>15.2f}")
+print(f"{'Max Velocity (m/s)':<30} {max_velocity:>15.2f}")
+print(f"{'Average Velocity (m/s)':<30} {average_velocity:>15.2f}")
+print(f"{'Battery Energy (J)':<30} {battery_energy:>15.2f}")
+print(f"{'Energy per Distance (J/m)':<30} {energy_per_distance:>15.2f}")
+
+# Plot results
+plt.figure(figsize=(8,10))
+plt.suptitle("Rover Experiment 1 Telemetry", fontsize=16)
+
+# Position
+plt.subplot(3,1,1)
+plt.plot(time, position)
+plt.title("Position vs Time")
+plt.xlabel("Time [s]")
+plt.ylabel("Position [m]")
+
+# Velocity
+plt.subplot(3,1,2)
+plt.plot(time, velocity)
+plt.title("Velocity vs Time")
+plt.xlabel("Time [s]")
+plt.ylabel("Velocity [m/s]")
+
+# Power
+plt.subplot(3,1,3)
+plt.plot(time, power)
+plt.title("Power vs Time")
+plt.xlabel("Time [s]")
+plt.ylabel("Power [W]")
+
+plt.tight_layout(rect=[0,0,1,0.96])
+plt.show()
+
+plt.figure(figsize=(6,3))
+plt.axis('off')
+
+table_data = [
+    ["Completion Time (s)", f"{completion_time:.2f}"],
+    ["Distance Traveled (m)", f"{distance_traveled:.2f}"],
+    ["Max Velocity (m/s)", f"{max_velocity:.2f}"],
+    ["Average Velocity (m/s)", f"{average_velocity:.2f}"],
+    ["Battery Energy (J)", f"{battery_energy:.2f}"],
+    ["Energy per Distance (J/m)", f"{energy_per_distance:.2f}"]
+]
+
+plt.table(cellText=table_data,
+          colLabels=["Metric", "Value"],
+          loc='center')
+
+plt.title("Rover Telemetry Summary")
+plt.show()
